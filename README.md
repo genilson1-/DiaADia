@@ -1,5 +1,4 @@
 # DiaADia
-Códigos do Dia a dia
 ##Como usar o código:
 ### Gerando o DB
 
@@ -9,7 +8,7 @@ Códigos do Dia a dia
 * db.creat_all()
 * exit()
 
-#### Instalando dependcias
+### Instalando dependcias
 
 * Criando ambiente virtual
 * python3.5 -m venv venv
