@@ -1,5 +1,5 @@
 # DiaADia
-##Como usar o código:
+## Como usar o código:
 ### Gerando o DB
 
 #### Acesse o console com o python, ex:
