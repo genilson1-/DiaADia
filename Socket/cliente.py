@@ -10,12 +10,13 @@ def enviaOla():
     dest = (HOST, PORT)
     tcp.connect(dest)
     msg ="Olá"
-    tcp.send(b"Ola")
+    tcp.send(b"Olaa")
     while(True):
         data = tcp.recv(1024)
+        if not data: break
         print(data)
 
-    # tcp.close()
+    tcp.close()
 
 print('comeca a enviar')
 enviaOla()
