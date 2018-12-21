@@ -1,30 +1,41 @@
-# -*- coding: utf-8 -*-
 import socket
+import sys
+from _thread import start_new_thread
+import time
 
-def enviaOla():
+HOST = '' # all availabe interfaces
+PORT = 8888 # arbitrary non privileged port
 
-    HOST = '127.0.0.1'
-    PORT = 8000
-    tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    dest = (HOST, PORT)
-    tcp.connect(dest)
-    msg ="Olá"
-    tcp.send(b"Ola")
-    tcp.close()
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-def recebeDados():
 
-    HOST = ''              # Endereco IP do Servidor
-    PORT = 9000            # Porta que o Servidor esta
-    tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    orig = (HOST, PORT)
-    tcp.bind(orig)
-    tcp.listen(1)
-    con, cliente = tcp.accept()
-    while True:
-        msg = con.recv(1024)
-        if not msg: break
-        print(msg)
 
-enviaOla()
-recebeDados()
+# bind socket
+s.bind((HOST, PORT))
+print("[-] Socket Bound to port " + str(PORT))
+s.listen(10)
+print("Listening...")
+
+def client_thread(conn):
+    conn.send(b"Welcome to the Server. Type messages and press enter to send.\n")
+    data = conn.recv(1024)
+    if (data == b'Ola'):
+        while (True):
+        # break
+            reply = b"OK . . " + data
+            conn.send(reply)
+            time.sleep(1)
+            conn.send(b'teste')
+    else:
+        conn.send(b'wrong')
+        conn.close()
+    conn.close()
+
+while True:
+    # blocking call, waits to accept a connection
+    conn, addr = s.accept()
+    print("[-] Connected to " + addr[0] + ":" + str(addr[1]))
+
+    start_new_thread(client_thread, (conn,))
+
+s.close()
